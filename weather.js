@@ -1,26 +1,37 @@
 #! /usr/bin/env node
 
-import { getArgs } from './helpers/args.js';
-import { printHelp } from './services/log.service.js';
+import { getArgs } from "./helpers/args.js";
+import { printError, printHelp, printSuccess } from "./services/log.service.js";
+import { saveKeyValue } from "./services/storage.service.js";
 
-function initWeatherCLI() {
+function initCLI() {
   const args = getArgs(process.argv);
 
   switch (true) {
-    case args.c:
+    case Object.hasOwn(args, "c"):
       // save city
       break;
-    case args.h:
+    case Object.hasOwn(args, "h"):
       // show help
       printHelp();
       break;
-    case args.t:
+    case Object.hasOwn(args, "t"):
       // save token
-      break;
+      return saveToken(args.t);
     default:
-      console.log('Undefined arguments');
+      console.log("Undefined arguments");
       break;
   }
 }
 
-initWeatherCLI();
+async function saveToken(token) {
+  try {
+    await saveKeyValue("token", token);
+    printSuccess("Token saved successfully");
+  } catch (e) {
+    console.log(e);
+    printError(`Error saving token: ${e.message}`);
+  }
+}
+
+void initCLI();
