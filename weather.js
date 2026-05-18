@@ -1,11 +1,10 @@
 #! /usr/bin/env node
 
 import { getArgs } from './helpers/args.js';
+import { printHelp } from './services/log.service.js';
 
 function initWeatherCLI() {
   const args = getArgs(process.argv);
-
-  console.log(args);
 
   switch (true) {
     case args.c:
@@ -13,11 +12,11 @@ function initWeatherCLI() {
       break;
     case args.h:
       // show help
+      printHelp();
       break;
     case args.t:
       // save token
       break;
-  
     default:
       console.log('Undefined arguments');
       break;
