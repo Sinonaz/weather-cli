@@ -7,7 +7,7 @@ async function getWeatherData(city) {
     printError("City is required");
   }
 
-  const token = await getValue(TOKEN_DICTIONARY.token);
+  const token = process.env.TOKEN || await getValue(TOKEN_DICTIONARY.token);
 
   if (!token) {
     throw new Error("Token is not defined");
